@@ -1,43 +1,15 @@
 import requests
-
+# library used to request weather data
 api_key = '67fb74e75cf795bad268237095353284'
 city = 'London'
 
 url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric'
-
+# requests data and gets from url
 response = requests.get(url)
 data = response.json()
+# creating a dictonary
 
-# Create a structured representation of the data
-organized_data = {
-    'location': data['name'],
-    'weather': {
-        'description': data['weather'][0]['description'],
-        'temperature': data['main']['temp'],
-        'feels_like': data['main']['feels_like'],
-        'humidity': data['main']['humidity'],
-        'pressure': data['main']['pressure'],
-    },
-    'wind': {
-        'speed': data['wind']['speed'],
-        # 'deg' might not always be present
-        'degree': data['wind'].get('deg', None),
-    },
-    'clouds': {
-        'cloudiness': data['clouds']['all'],
-    },
-    'sun': {
-        'sunrise': data['sys']['sunrise'],
-        'sunset': data['sys']['sunset'],
-    },
-    # 'visibility' might not always be present
-    'visibility': data.get('visibility', None),
-    'timestamp': data['dt'],
-}
-
-print(organized_data)
-
-
+# creating a Weather Report html doc to view data
 html_content = f"""
 <!DOCTYPE html>
 <html lang="en">
@@ -65,5 +37,3 @@ html_content = f"""
 # Write the HTML content to a file
 with open('weather_report.html', 'w') as f:
     f.write(html_content)
-
-print("Weather report HTML file generated successfully.")
